@@ -2,60 +2,77 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <title>Math Pan Balance — Koydaa Gammat</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Roboto',sans-serif;background:#fff;min-height:100vh;padding:20px 14px;color:#000;}
-.container{max-width:720px;margin:0 auto;}
-.header{text-align:center;margin-bottom:20px;padding-bottom:16px;border-bottom:1.5px solid #E2E3E4;}
-.brand{font-size:12px;color:#C2C2C2;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:5px;}
-h1{font-size:26px;font-weight:700;color:#000;margin-bottom:3px;}
-.sub{font-size:16px;color:#444;}
-.top-bar{display:flex;justify-content:space-between;align-items:center;background:#F2F2F2;border:1px solid #E2E3E4;border-radius:10px;padding:10px 20px;margin-bottom:16px;flex-wrap:wrap;gap:8px;}
-.stat .lbl{font-size:11px;color:#C2C2C2;text-transform:uppercase;letter-spacing:1px;}
-.stat .val{font-size:20px;font-weight:600;color:#752886;}
-.progress-wrap{height:5px;background:#E2E3E4;border-radius:10px;margin-bottom:18px;overflow:hidden;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{width:100%;min-height:100%;font-family:'Roboto',sans-serif;background:#fff;color:#000;overflow-x:hidden;}
+.container{width:100%;max-width:600px;margin:0 auto;padding:16px 14px 32px;}
+
+.header{text-align:center;margin-bottom:16px;padding-bottom:14px;border-bottom:1.5px solid #E2E3E4;}
+.brand{font-size:11px;color:#C2C2C2;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px;}
+h1{font-size:22px;font-weight:700;color:#000;margin-bottom:2px;}
+.sub{font-size:14px;color:#444;}
+
+.top-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px;}
+.stat{background:#F2F2F2;border:1px solid #E2E3E4;border-radius:8px;padding:8px 6px;text-align:center;}
+.stat .lbl{font-size:10px;color:#C2C2C2;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:2px;}
+.stat .val{font-size:18px;font-weight:600;color:#752886;line-height:1;}
+
+.progress-wrap{height:5px;background:#E2E3E4;border-radius:10px;margin-bottom:14px;overflow:hidden;}
 .progress-fill{height:100%;background:linear-gradient(90deg,#752886,#F9A824);border-radius:10px;transition:width 0.5s;}
-.tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
-.tab{font-family:'Roboto',sans-serif;font-size:13px;background:#fff;border:1.5px solid #E2E3E4;border-radius:8px;padding:7px 14px;color:#444;cursor:pointer;transition:all 0.18s;}
-.tab:hover{border-color:#752886;color:#752886;}
+
+.tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
+.tab{font-family:'Roboto',sans-serif;font-size:12px;background:#fff;border:1.5px solid #E2E3E4;border-radius:8px;padding:6px 12px;color:#444;cursor:pointer;transition:all 0.18s;min-height:36px;display:flex;align-items:center;}
 .tab.active{background:#752886;border-color:#752886;color:#fff;font-weight:600;}
-.puzzle-card{background:#fff;border:1.5px solid #E2E3E4;border-radius:16px;overflow:hidden;margin-bottom:14px;}
-.p-header{background:#752886;padding:13px 22px;}
-.p-header h2{font-size:18px;font-weight:700;color:#fff;}
-.p-body{padding:22px;}
-.section-lbl{font-size:11px;font-weight:600;color:#C2C2C2;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;}
-.clue-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #F2F2F2;}
+
+.puzzle-card{background:#fff;border:1.5px solid #E2E3E4;border-radius:14px;overflow:hidden;margin-bottom:12px;}
+.p-header{background:#752886;padding:12px 16px;}
+.p-header h2{font-size:16px;font-weight:700;color:#fff;line-height:1.3;}
+.p-body{padding:16px;}
+
+.section-lbl{font-size:10px;font-weight:600;color:#C2C2C2;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
+
+.clue-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #F2F2F2;}
 .clue-row:last-of-type{margin-bottom:0;padding-bottom:0;border-bottom:none;}
-.clue-n{font-size:12px;font-weight:600;color:#C2C2C2;width:18px;flex-shrink:0;text-align:right;}
-.q-divider{border:none;border-top:2px dashed #E2E3E4;margin:18px 0;}
-.q-label{font-size:14px;font-weight:600;color:#000;text-align:center;margin-bottom:12px;}
-.opts-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;}
-.opt-btn{background:#fff;border:2px solid #E2E3E4;border-radius:12px;padding:12px 14px;cursor:pointer;transition:all 0.18s;display:flex;align-items:center;gap:10px;font-family:'Roboto',sans-serif;}
-.opt-btn:hover:not(:disabled){border-color:#752886;background:#EDD1FF;}
+.clue-n{font-size:11px;font-weight:600;color:#C2C2C2;width:16px;flex-shrink:0;text-align:right;}
+.clue-canvas-wrap{flex:1;min-width:0;}
+.clue-canvas-wrap canvas{width:100%;height:auto;display:block;}
+
+.q-divider{border:none;border-top:2px dashed #E2E3E4;margin:14px 0;}
+.q-label{font-size:13px;font-weight:600;color:#000;text-align:center;margin-bottom:10px;}
+
+.opts-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;}
+.opt-btn{background:#fff;border:2px solid #E2E3E4;border-radius:10px;padding:10px 10px;cursor:pointer;transition:all 0.18s;display:flex;align-items:center;gap:8px;font-family:'Roboto',sans-serif;min-height:52px;-webkit-appearance:none;width:100%;}
+.opt-btn:active:not(:disabled){transform:scale(0.97);}
 .opt-btn.sel{border-color:#F9A824;background:#FDE9C9;}
 .opt-btn.correct{border-color:#43a047;background:#D8F5E0;pointer-events:none;}
 .opt-btn.wrong{border-color:#e53935;background:#FFEDEC;pointer-events:none;}
-.opt-lbl{font-size:15px;font-weight:700;color:#752886;width:22px;flex-shrink:0;}
-.feedback{min-height:42px;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:9px 14px;margin:12px 0 4px;font-size:14px;opacity:0;transition:opacity 0.25s;text-align:center;line-height:1.5;}
+.opt-lbl{font-size:14px;font-weight:700;color:#752886;width:20px;flex-shrink:0;}
+.opt-canvas-wrap{flex:1;min-width:0;}
+.opt-canvas-wrap canvas{width:100%;height:auto;display:block;}
+
+.feedback{min-height:40px;display:flex;align-items:center;justify-content:center;border-radius:8px;padding:8px 12px;margin:10px 0 4px;font-size:13px;opacity:0;transition:opacity 0.25s;text-align:center;line-height:1.5;}
 .feedback.show{opacity:1;}
 .feedback.ok{background:#D8F5E0;color:#1b5e20;border:1px solid #b2dfdb;}
 .feedback.bad{background:#FFEDEC;color:#b71c1c;border:1px solid #ffcdd2;}
-.explain{background:#F2F2F2;border-left:3px solid #752886;border-radius:0 8px 8px 0;padding:12px 14px;margin-top:10px;font-size:13px;color:#444;line-height:1.9;display:none;}
+
+.explain{background:#F2F2F2;border-left:3px solid #752886;border-radius:0 8px 8px 0;padding:10px 12px;margin-top:8px;font-size:12px;color:#444;line-height:1.8;display:none;}
 .explain b{color:#752886;}
-.btns{display:flex;gap:10px;justify-content:center;margin-top:12px;flex-wrap:wrap;}
-.btn{font-family:'Roboto',sans-serif;font-size:14px;border-radius:8px;padding:9px 22px;cursor:pointer;transition:all 0.18s;font-weight:400;border:1.5px solid #E2E3E4;}
+
+.btns{display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap;}
+.btn{font-family:'Roboto',sans-serif;font-size:13px;border-radius:8px;padding:10px 18px;cursor:pointer;transition:all 0.18s;font-weight:400;border:1.5px solid #E2E3E4;min-height:42px;-webkit-appearance:none;}
+.btn:active{transform:scale(0.97);}
 .btn-check{background:#752886;border-color:#752886;color:#fff;font-weight:600;}
-.btn-check:hover:not(:disabled){background:#5c1f6e;}
 .btn-check:disabled{opacity:0.35;cursor:not-allowed;}
 .btn-next{background:#F9A824;border-color:#F9A824;color:#fff;font-weight:600;display:none;}
-.btn-next:hover{background:#e6a800;}
 .btn-show{background:#fff;color:#444;}
 .btn-show:hover{border-color:#752886;color:#752886;background:#EDD1FF;}
-.instruction{text-align:center;font-size:12px;color:#C2C2C2;margin-top:8px;}
-.footer{text-align:center;margin-top:22px;padding-top:12px;border-top:1px solid #E2E3E4;font-size:12px;color:#C2C2C2;}
+
+.instruction{text-align:center;font-size:11px;color:#C2C2C2;margin-top:8px;line-height:1.5;}
+.footer{text-align:center;margin-top:20px;padding-top:12px;border-top:1px solid #E2E3E4;font-size:11px;color:#C2C2C2;}
 canvas{display:block;}
 </style>
 </head>
@@ -64,11 +81,12 @@ canvas{display:block;}
 <div class="header">
   <div class="brand">Dreamchild Garbhsanskar — Koydaa Gammat</div>
   <h1>Math Pan Balance</h1>
-  <div class="sub">Use the clues to deduce — then choose A, B, C or D</div>
+  <div class="sub">Deduce values — choose A, B, C or D</div>
 </div>
+
 <div class="top-bar">
   <div class="stat"><div class="lbl">Score</div><div class="val" id="sc">0</div></div>
-  <div class="stat"><div class="lbl">Puzzle</div><div class="val" id="qn">1 / 6</div></div>
+  <div class="stat"><div class="lbl">Puzzle</div><div class="val" id="qn">1/6</div></div>
   <div class="stat"><div class="lbl">Correct</div><div class="val" id="cr">0</div></div>
   <div class="stat"><div class="lbl">Streak</div><div class="val" id="st">0</div></div>
 </div>
@@ -77,7 +95,9 @@ canvas{display:block;}
 <div id="area"></div>
 <div class="footer">©Dreamchild Garbhsanskar — Math Pan Balance Series</div>
 </div>
+
 <script>
+/* ── SHAPES ── */
 const SH={
   circle:  (c,x,y,r)=>{c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();c.stroke();},
   square:  (c,x,y,r)=>{c.fillRect(x-r,y-r,r*2,r*2);c.strokeRect(x-r,y-r,r*2,r*2);},
@@ -100,49 +120,52 @@ const COL={
 };
 function sty(ctx,id){ctx.fillStyle=COL[id][0];ctx.strokeStyle=COL[id][1];ctx.lineWidth=2;}
 
+/* ── DRAW SCALE — uses logical coords 400x80, CSS scales to fit ── */
 function drawScale(cvs,lArr,rArr,isQ){
-  const W=cvs.width,H=cvs.height,ctx=cvs.getContext('2d');
-  ctx.clearRect(0,0,W,H);
-  const cx=W/2,baseY=H-8,poleH=H*0.56,pivotY=baseY-poleH,armLen=W*0.37;
+  const LW=400,LH=80;
+  cvs.width=LW; cvs.height=LH;
+  const ctx=cvs.getContext('2d');
+  ctx.clearRect(0,0,LW,LH);
+  const cx=LW/2,baseY=LH-6,poleH=LH*0.58,pivotY=baseY-poleH,armLen=LW*0.37;
+  /* base */
   ctx.fillStyle='#1565c0';
-  ctx.beginPath();ctx.moveTo(cx-26,baseY);ctx.lineTo(cx+26,baseY);ctx.lineTo(cx+9,pivotY+6);ctx.lineTo(cx-9,pivotY+6);ctx.closePath();ctx.fill();
+  ctx.beginPath();ctx.moveTo(cx-24,baseY);ctx.lineTo(cx+24,baseY);ctx.lineTo(cx+9,pivotY+6);ctx.lineTo(cx-9,pivotY+6);ctx.closePath();ctx.fill();
+  /* pole */
   ctx.fillStyle='#1976d2';ctx.fillRect(cx-4,pivotY,8,poleH);
+  /* pivot */
   ctx.fillStyle='#fdd835';ctx.beginPath();ctx.arc(cx,pivotY,6,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle='#1976d2';ctx.fillRect(cx-armLen-6,pivotY-4,armLen*2+12,8);
+  /* beam */
+  ctx.fillStyle='#1976d2';ctx.fillRect(cx-armLen-6,pivotY-4,(armLen+6)*2,8);
   function pan(side,shapes,isQmark){
     const px=side==='L'?cx-armLen:cx+armLen;
     ctx.strokeStyle='#90a4ae';ctx.lineWidth=1.5;
     ctx.beginPath();ctx.moveTo(px,pivotY+4);ctx.lineTo(px,pivotY+20);ctx.stroke();
     ctx.fillStyle='#F9A824';ctx.strokeStyle='#c47f00';ctx.lineWidth=1.5;
-    ctx.beginPath();ctx.ellipse(px,pivotY+24,28,6,0,0,Math.PI*2);ctx.fill();ctx.stroke();
+    ctx.beginPath();ctx.ellipse(px,pivotY+24,26,5,0,0,Math.PI*2);ctx.fill();ctx.stroke();
     if(isQmark){
-      ctx.font='bold 20px Roboto,sans-serif';ctx.fillStyle='#752886';
+      ctx.font='bold 18px Roboto,sans-serif';ctx.fillStyle='#752886';
       ctx.textAlign='center';ctx.textBaseline='middle';
       ctx.fillText('?',px,pivotY+10);
     } else {
-      const n=shapes.length,sp=20,tot=(n-1)*sp,sx=px-tot/2;
-      shapes.forEach((sh,i)=>{sty(ctx,sh);SH[sh](ctx,sx+i*sp,pivotY+10,9);});
+      const n=shapes.length,sp=Math.min(20,Math.floor((armLen*1.6)/Math.max(n,1))),tot=(n-1)*sp,sx=px-tot/2;
+      shapes.forEach((sh,i)=>{sty(ctx,sh);SH[sh](ctx,sx+i*sp,pivotY+10,8);});
     }
   }
   pan('L',lArr,false);
   pan('R',rArr,isQ);
 }
 
+/* ── DRAW OPTION ── */
 function drawOpt(cvs,shapes){
-  const W=cvs.width,H=cvs.height,ctx=cvs.getContext('2d');
-  ctx.clearRect(0,0,W,H);
-  const n=shapes.length,sp=22,tot=(n-1)*sp,sx=W/2-tot/2;
-  shapes.forEach((sh,i)=>{sty(ctx,sh);SH[sh](ctx,sx+i*sp,H/2,9);});
+  const LW=180,LH=36;
+  cvs.width=LW;cvs.height=LH;
+  const ctx=cvs.getContext('2d');
+  ctx.clearRect(0,0,LW,LH);
+  const n=shapes.length,sp=Math.min(22,Math.floor(LW/Math.max(n+0.5,1))),tot=(n-1)*sp,sx=LW/2-tot/2;
+  shapes.forEach((sh,i)=>{sty(ctx,sh);SH[sh](ctx,sx+i*sp,LH/2,9);});
 }
 
-/* VERIFIED PUZZLES
-   P1: circle=2, square=3, triangle=1
-   P2: square=6, circle=4, diamond=2
-   P3: pentagon=6, hexagon=4, star=2
-   P4: circle=6, triangle=4, diamond=2, square=1
-   P5: pentagon=6, star=3, circle=5, hexagon=2
-   P6: hexagon=2, circle=4, diamond=1
-*/
+/* ── PUZZLES (all mathematically verified) ── */
 const PUZZLES=[
   {
     title:'Math Pan Balance — 1', diff:'Easy',
@@ -160,12 +183,11 @@ const PUZZLES=[
     ],
     ans:'d',
     steps:[
-      'Assign: ⬤=circle, ■=square, ▲=triangle.',
+      'Let ⬤=circle, ■=square, ▲=triangle.',
       'Clue 3: ⬤ + ▲ = ■',
-      'Clue 1: ⬤+⬤+⬤ = ■+■  →  3⬤ = 2■',
-      'Substitute ■ = ⬤+▲:  3⬤ = 2(⬤+▲) = 2⬤+2▲  →  ⬤ = 2▲',
+      'Clue 1: 3⬤ = 2■ = 2(⬤+▲)  →  ⬤ = 2▲',
       'So ■ = ⬤+▲ = 2▲+▲ = 3▲',
-      'Clue 2 check: ■+■ = 6▲ = ▲×6 ✓',
+      'Clue 2 check: ■+■ = 6▲ ✓',
       'Question: ⬤+■ = 2▲+3▲ = 5▲',
       '→ Answer D: five triangles ✓',
     ],
@@ -186,10 +208,10 @@ const PUZZLES=[
     ],
     ans:'a',
     steps:[
-      'Assign: ■=square, ⬤=circle, ◆=diamond.',
-      'Clue 3: ◆+◆+◆ = ⬤+◆  →  3◆ = ⬤+◆  →  2◆ = ⬤  →  ⬤ = 2◆',
+      'Let ■=square, ⬤=circle, ◆=diamond.',
+      'Clue 3: 3◆ = ⬤+◆  →  2◆ = ⬤  →  ⬤ = 2◆',
       'Clue 1: ■ = ⬤+◆ = 2◆+◆ = 3◆',
-      'Clue 2 check: ⬤+⬤ = ■+◆  →  4◆ = 3◆+◆ = 4◆ ✓',
+      'Clue 2 check: ⬤+⬤ = 4◆ = ■+◆ = 4◆ ✓',
       'Question: ■+⬤ = 3◆+2◆ = 5◆',
       '→ Answer A: five diamonds ✓',
     ],
@@ -210,11 +232,11 @@ const PUZZLES=[
     ],
     ans:'a',
     steps:[
-      'Assign: P=pentagon, H=hexagon, ★=star.',
+      'Let P=pentagon, H=hexagon, ★=star.',
       'Clue 1: 2P = 3H  →  P = 1.5H',
       'Clue 2: 2H = 4★  →  H = 2★',
-      'So P = 1.5H = 1.5×2★ = 3★',
-      'Clue 3 check: P+★ = H+H  →  3★+★ = 2★+2★  →  4★ = 4★ ✓',
+      'So P = 3★',
+      'Clue 3 check: P+★ = 4★ = H+H = 4★ ✓',
       'Question: P+H = 3★+2★ = 5★',
       'Option A: H+H+★ = 2★+2★+★ = 5★ ✓',
       '→ Answer A ✓',
@@ -236,14 +258,13 @@ const PUZZLES=[
     ],
     ans:'b',
     steps:[
-      'Assign: ⬤=circle=C, ▲=triangle=T, ◆=diamond=D, ■=square=S.',
-      'Clue 1: 2C = 3T  →  C = 1.5T',
-      'Clue 2: 2T = 4D  →  T = 2D  →  C = 1.5×2D = 3D',
-      'Clue 3: C+S+S = T+D+D  →  3D+2S = 2D+2D  →  3D+2S = 4D  →  2S = D  →  S = 0.5D',
-      'With D=2: S=1, T=4, C=6. Check Clue 3: 6+1+1=8, 4+2+2=8 ✓',
-      'Question: C+T+D = 6+4+2 = 12',
-      'Option B: C+C = 6+6 = 12 ✓',
-      '→ Answer B ✓',
+      'Let ⬤=circle, ▲=triangle, ◆=diamond, ■=square.',
+      'Clue 1: 2⬤ = 3▲  →  ⬤ = 1.5▲',
+      'Clue 2: 2▲ = 4◆  →  ▲ = 2◆  →  ⬤ = 3◆',
+      'Clue 3: ⬤+2■ = ▲+2◆  →  3◆+2■ = 2◆+2◆  →  2■ = ◆  →  ■ = 0.5◆',
+      'With ◆=2: ■=1, ▲=4, ⬤=6. Check Clue 3: 6+2=8, 4+4=8 ✓',
+      'Question: ⬤+▲+◆ = 6+4+2 = 12 = 2⬤ = 2×6 = 12',
+      '→ Answer B: two circles ✓',
     ],
   },
   {
@@ -262,12 +283,12 @@ const PUZZLES=[
     ],
     ans:'a',
     steps:[
-      'Assign: P=pentagon, ★=star, C=circle, H=hexagon.',
+      'Let P=pentagon, ★=star, C=circle, H=hexagon.',
       'Clue 1: 2P = 4★  →  P = 2★',
-      'Clue 2: P+H = C+★  →  substitute P=2★:  2★+H = C+★  →  ★+H = C',
-      'Clue 3: C+2H = P+★  →  substitute C=★+H and P=2★:  (★+H)+2H = 2★+★  →  ★+3H = 3★  →  3H = 2★  →  H = (2/3)★',
-      'With ★=3: H=2, P=6, C=★+H=3+2=5',
-      'Verify: Clue 1: 12=12 ✓  Clue 2: 6+2=8=5+3=8 ✓  Clue 3: 5+4=9=6+3=9 ✓',
+      'Clue 2: P+H = C+★  →  2★+H = C+★  →  ★+H = C',
+      'Clue 3: C+2H = P+★  →  (★+H)+2H = 3★  →  3H = 2★  →  H = (2/3)★',
+      'With ★=3: H=2, P=6, C=★+H=5',
+      'Verify all clues: ✓ ✓ ✓',
       'Question: C+C+H = 5+5+2 = 12 = 2P = 2×6 = 12',
       '→ Answer A: two pentagons ✓',
     ],
@@ -288,11 +309,11 @@ const PUZZLES=[
     ],
     ans:'a',
     steps:[
-      'Assign: H=hexagon, C=circle, D=diamond.',
+      'Let H=hexagon, C=circle, D=diamond.',
       'Clue 1: 4H = 2C  →  C = 2H',
       'Clue 2: 2C = 8D  →  C = 4D',
-      'From C=2H and C=4D:  2H = 4D  →  H = 2D',
-      'Clue 3 check: H+D+D = C  →  2D+2D = 4D ✓',
+      'So 2H = 4D  →  H = 2D',
+      'Clue 3 check: H+D+D = 2D+2D = 4D = C ✓',
       'Question: C+D = 4D+D = 5D',
       'Option A: H+H+D = 2D+2D+D = 5D ✓',
       '→ Answer A ✓',
@@ -305,33 +326,37 @@ let cur=0,score=0,streak=0,correct=0,sel=null,done=false;
 function render(){
   const p=PUZZLES[cur];
   sel=null;done=false;
-  document.getElementById('qn').textContent=(cur+1)+' / '+PUZZLES.length;
+  document.getElementById('qn').textContent=(cur+1)+'/'+PUZZLES.length;
   document.getElementById('pf').style.width=(cur/PUZZLES.length*100)+'%';
   buildTabs();
   const area=document.getElementById('area');
   area.innerHTML='';
   const card=document.createElement('div');card.className='puzzle-card';
-  card.innerHTML='<div class="p-header"><h2>'+p.title+' <span style="font-size:12px;font-weight:400;opacity:0.7;letter-spacing:1px;">'+p.diff.toUpperCase()+'</span></h2></div>';
+  card.innerHTML='<div class="p-header"><h2>'+p.title+'<br><span style="font-size:11px;font-weight:400;opacity:0.75;">'+p.diff.toUpperCase()+'</span></h2></div>';
   const body=document.createElement('div');body.className='p-body';
-  body.insertAdjacentHTML('beforeend','<div class="section-lbl">Clues — all three scales are perfectly balanced</div>');
+
+  body.insertAdjacentHTML('beforeend','<div class="section-lbl">Clues — all three scales are balanced</div>');
   p.clues.forEach((cl,i)=>{
     const row=document.createElement('div');row.className='clue-row';
-    row.innerHTML='<span class="clue-n">'+(i+1)+'.</span><div style="flex:1"><canvas id="cl'+i+'" width="460" height="74"></canvas></div>';
+    row.innerHTML='<span class="clue-n">'+(i+1)+'.</span><div class="clue-canvas-wrap"><canvas id="cl'+i+'"></canvas></div>';
     body.appendChild(row);
   });
-  body.insertAdjacentHTML('beforeend','<hr class="q-divider"><div class="q-label">What replaces <b style="color:#752886">?</b> to balance the scale?</div>');
+
+  body.insertAdjacentHTML('beforeend','<hr class="q-divider"><div class="q-label">What replaces <b style="color:#752886">?</b> to balance?</div>');
   const qr=document.createElement('div');qr.className='clue-row';qr.style.justifyContent='center';
-  qr.innerHTML='<div style="max-width:460px;flex:1"><canvas id="qcvs" width="460" height="74"></canvas></div>';
+  qr.innerHTML='<div class="clue-canvas-wrap" style="max-width:400px;"><canvas id="qcvs"></canvas></div>';
   body.appendChild(qr);
+
   const og=document.createElement('div');og.className='opts-grid';
   p.opts.forEach(opt=>{
     og.insertAdjacentHTML('beforeend',
       '<button class="opt-btn" id="ob'+opt.id+'" onclick="pick(\''+opt.id+'\')">'
       +'<span class="opt-lbl">'+opt.id.toUpperCase()+'.</span>'
-      +'<canvas id="oc'+opt.id+'" width="200" height="36"></canvas>'
+      +'<div class="opt-canvas-wrap"><canvas id="oc'+opt.id+'"></canvas></div>'
       +'</button>');
   });
   body.appendChild(og);
+
   body.insertAdjacentHTML('beforeend',
     '<div class="feedback" id="fb"></div>'
     +'<div class="explain" id="exp"></div>'
@@ -340,8 +365,10 @@ function render(){
     +'<button class="btn btn-show" onclick="showExp()">Show Steps</button>'
     +'<button class="btn btn-next" id="nxt" onclick="nextQ()">Next Puzzle →</button>'
     +'</div>'
-    +'<div class="instruction">Study all 3 clues carefully, deduce shape values, then select A B C or D.</div>');
+    +'<div class="instruction">Study all 3 clues, deduce shape values, tap A B C or D.</div>');
+
   card.appendChild(body);area.appendChild(card);
+
   requestAnimationFrame(()=>{
     p.clues.forEach((cl,i)=>drawScale(document.getElementById('cl'+i),cl.L,cl.R,false));
     drawScale(document.getElementById('qcvs'),p.qL,[],true);
@@ -367,13 +394,13 @@ function chk(){
   if(sel===p.ans){
     document.getElementById('ob'+sel).className='opt-btn correct';
     fb.className='feedback ok show';
-    fb.textContent='Correct! Option '+p.ans.toUpperCase()+' balances the scale perfectly.';
+    fb.textContent='Correct! Option '+p.ans.toUpperCase()+' balances the scale.';
     score+=10+(streak*2);streak++;correct++;
   } else {
     document.getElementById('ob'+sel).className='opt-btn wrong';
     document.getElementById('ob'+p.ans).className='opt-btn correct';
     fb.className='feedback bad show';
-    fb.textContent='Not quite. The correct answer is Option '+p.ans.toUpperCase()+'.';
+    fb.textContent='Not quite. Correct answer is Option '+p.ans.toUpperCase()+'.';
     streak=0;
   }
   document.getElementById('sc').textContent=score;
@@ -387,7 +414,7 @@ function chk(){
 function showExp(){
   const exp=document.getElementById('exp');
   exp.style.display='block';
-  exp.innerHTML='<b>Step-by-step solution:</b><br>'+PUZZLES[cur].steps.map((s,i)=>(i+1)+'. '+s).join('<br>');
+  exp.innerHTML='<b>Step-by-step:</b><br>'+PUZZLES[cur].steps.map((s,i)=>(i+1)+'. '+s).join('<br>');
 }
 
 function nextQ(){
@@ -396,10 +423,10 @@ function nextQ(){
 
 function buildTabs(){
   const row=document.getElementById('tabs');row.innerHTML='';
-  PUZZLES.forEach((p,i)=>{
+  PUZZLES.forEach((_,i)=>{
     const b=document.createElement('button');
     b.className='tab'+(i===cur?' active':'');
-    b.textContent='Puzzle '+(i+1);
+    b.textContent='P'+(i+1);
     b.onclick=()=>{cur=i;render();};
     row.appendChild(b);
   });
@@ -409,16 +436,24 @@ function showFinal(){
   document.getElementById('pf').style.width='100%';
   document.getElementById('area').innerHTML=
     '<div class="puzzle-card"><div class="p-header"><h2>All 6 Puzzles Complete!</h2></div>'
-    +'<div class="p-body" style="text-align:center;padding:36px 24px;">'
-    +'<div style="font-size:52px;margin-bottom:12px;">🏆</div>'
-    +'<div style="font-size:18px;font-weight:600;margin-bottom:8px;">Excellent logical thinking!</div>'
-    +'<div style="font-size:36px;font-weight:700;color:#752886;margin:12px 0;">'+score+' pts</div>'
-    +'<div style="font-size:15px;color:#444;margin-bottom:6px;">Correct: '+correct+' / '+PUZZLES.length+'</div>'
-    +'<div style="font-size:13px;color:#C2C2C2;margin-bottom:26px;">This puzzle builds logical deduction for you and your baby.</div>'
+    +'<div class="p-body" style="text-align:center;padding:32px 16px;">'
+    +'<div style="font-size:48px;margin-bottom:10px;">🏆</div>'
+    +'<div style="font-size:17px;font-weight:600;margin-bottom:8px;">Excellent logical thinking!</div>'
+    +'<div style="font-size:32px;font-weight:700;color:#752886;margin:10px 0;">'+score+' pts</div>'
+    +'<div style="font-size:14px;color:#444;margin-bottom:6px;">Correct: '+correct+' / '+PUZZLES.length+'</div>'
+    +'<div style="font-size:12px;color:#C2C2C2;margin-bottom:22px;">Builds logical thinking for you and your baby.</div>'
     +'<button class="btn btn-check" style="display:inline-block;" onclick="restart()">Play Again</button>'
     +'</div></div>';
 }
-function restart(){cur=0;score=0;streak=0;correct=0;document.getElementById('sc').textContent=0;document.getElementById('st').textContent=0;document.getElementById('cr').textContent=0;render();}
+
+function restart(){
+  cur=0;score=0;streak=0;correct=0;
+  document.getElementById('sc').textContent=0;
+  document.getElementById('st').textContent=0;
+  document.getElementById('cr').textContent=0;
+  render();
+}
+
 render();
 </script>
 </body>
