@@ -1,457 +1,422 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="gu">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Math Pan Balance — Koydaa Gammat</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700&family=Noto+Sans+Gujarati:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html,body{width:100%;min-height:100%;font-family:'Roboto',sans-serif;background:#fff;color:#000;overflow-x:hidden;}
-.container{width:100%;max-width:600px;margin:0 auto;padding:16px 14px 32px;}
+html,body{width:100%;min-height:100%;font-family:'Noto Sans Gujarati','Roboto',sans-serif;background:#F2F2F2;color:#444;overflow-x:hidden;}
+.wrap{width:100%;max-width:560px;margin:0 auto;padding:12px 14px 30px;}
 
-.header{text-align:center;margin-bottom:16px;padding-bottom:14px;border-bottom:1.5px solid #E2E3E4;}
-.brand{font-size:11px;color:#C2C2C2;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px;}
-h1{font-size:22px;font-weight:700;color:#000;margin-bottom:2px;}
-.sub{font-size:14px;color:#444;}
+/* 1. TITLE */
+.p-title{font-size:18px;font-weight:600;color:#752886;text-align:center;line-height:1.45;margin-bottom:6px;}
+.p-sub{font-size:13px;color:#888;text-align:center;line-height:1.5;margin-bottom:12px;}
 
-.top-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px;}
-.stat{background:#F2F2F2;border:1px solid #E2E3E4;border-radius:8px;padding:8px 6px;text-align:center;}
-.stat .lbl{font-size:10px;color:#C2C2C2;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:2px;}
-.stat .val{font-size:18px;font-weight:600;color:#752886;line-height:1;}
-
-.progress-wrap{height:5px;background:#E2E3E4;border-radius:10px;margin-bottom:14px;overflow:hidden;}
-.progress-fill{height:100%;background:linear-gradient(90deg,#752886,#F9A824);border-radius:10px;transition:width 0.5s;}
-
+/* 2. TABS */
 .tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
-.tab{font-family:'Roboto',sans-serif;font-size:12px;background:#fff;border:1.5px solid #E2E3E4;border-radius:8px;padding:6px 12px;color:#444;cursor:pointer;transition:all 0.18s;min-height:36px;display:flex;align-items:center;}
-.tab.active{background:#752886;border-color:#752886;color:#fff;font-weight:600;}
+.tab{flex:1;min-width:42px;font-family:inherit;font-size:12px;font-weight:600;background:#fff;border:1.5px solid #E2E3E4;border-radius:8px;min-height:36px;color:#888;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;touch-action:manipulation;}
+.tab.active{background:#752886;border-color:#752886;color:#fff;}
+.tab.done{background:#EDD1FF;border-color:#752886;color:#752886;}
+.tab:active{transform:scale(0.97);}
 
-.puzzle-card{background:#fff;border:1.5px solid #E2E3E4;border-radius:14px;overflow:hidden;margin-bottom:12px;}
-.p-header{background:#752886;padding:12px 16px;}
-.p-header h2{font-size:16px;font-weight:700;color:#fff;line-height:1.3;}
-.p-body{padding:16px;}
+/* 4. GAME CARD */
+.card{position:relative;background:#fff;border:1px solid #E2E3E4;border-radius:14px;padding:16px 14px 18px;margin-bottom:12px;}
+.snd{position:absolute;top:10px;right:10px;width:32px;height:32px;border:1.5px solid #E2E3E4;border-radius:8px;background:#fff;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;touch-action:manipulation;}
+.snd:active{transform:scale(0.95);}
+.diff{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#C2C2C2;text-align:center;margin-bottom:10px;}
 
-.section-lbl{font-size:10px;font-weight:600;color:#C2C2C2;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
-
-.clue-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #F2F2F2;}
-.clue-row:last-of-type{margin-bottom:0;padding-bottom:0;border-bottom:none;}
+.sect{font-size:11px;font-weight:600;color:#C2C2C2;letter-spacing:.5px;margin-bottom:10px;}
+.clue{display:flex;align-items:center;gap:8px;margin-bottom:9px;padding-bottom:9px;border-bottom:1px solid #F2F2F2;}
+.clue:last-of-type{margin-bottom:0;padding-bottom:0;border-bottom:none;}
 .clue-n{font-size:11px;font-weight:600;color:#C2C2C2;width:16px;flex-shrink:0;text-align:right;}
-.clue-canvas-wrap{flex:1;min-width:0;}
-.clue-canvas-wrap canvas{width:100%;height:auto;display:block;}
+.cw{flex:1;min-width:0;}
+.cw canvas{width:100%;height:auto;display:block;}
 
-.q-divider{border:none;border-top:2px dashed #E2E3E4;margin:14px 0;}
-.q-label{font-size:13px;font-weight:600;color:#000;text-align:center;margin-bottom:10px;}
+.qdiv{border:none;border-top:2px dashed #E2E3E4;margin:14px 0 12px;}
+.qlbl{font-size:13px;font-weight:600;color:#000;text-align:center;margin-bottom:10px;}
+.qlbl b{color:#752886;}
+.qwrap{max-width:400px;margin:0 auto;}
+.qwrap canvas{width:100%;height:auto;display:block;}
 
-.opts-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;}
-.opt-btn{background:#fff;border:2px solid #E2E3E4;border-radius:10px;padding:10px 10px;cursor:pointer;transition:all 0.18s;display:flex;align-items:center;gap:8px;font-family:'Roboto',sans-serif;min-height:52px;-webkit-appearance:none;width:100%;}
-.opt-btn:active:not(:disabled){transform:scale(0.97);}
-.opt-btn.sel{border-color:#F9A824;background:#FDE9C9;}
-.opt-btn.correct{border-color:#43a047;background:#D8F5E0;pointer-events:none;}
-.opt-btn.wrong{border-color:#e53935;background:#FFEDEC;pointer-events:none;}
-.opt-lbl{font-size:14px;font-weight:700;color:#752886;width:20px;flex-shrink:0;}
-.opt-canvas-wrap{flex:1;min-width:0;}
-.opt-canvas-wrap canvas{width:100%;height:auto;display:block;}
+/* OPTION CARDS */
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;}
+.opt{background:#fff;border:1.5px solid #E2E3E4;border-radius:8px;padding:12px;cursor:pointer;display:flex;flex-direction:column;gap:6px;min-height:64px;justify-content:center;touch-action:manipulation;transition:background .15s,border-color .15s;-webkit-appearance:none;font-family:inherit;}
+.opt:active{transform:scale(0.97);}
+.opt .ol{font-size:14px;font-weight:700;color:#752886;}
+.opt canvas{width:100%;height:auto;display:block;}
+.opt.sel{border:2px solid #752886;background:#EDD1FF;padding:11.5px;}
+.opt.correct{border:2px solid #43a047;background:#D8F5E0;padding:11.5px;}
+.opt.wrong{border:2px solid #e53935;background:#FFEDEC;padding:11.5px;}
+.opt.lock{pointer-events:none;}
 
-.feedback{min-height:40px;display:flex;align-items:center;justify-content:center;border-radius:8px;padding:8px 12px;margin:10px 0 4px;font-size:13px;opacity:0;transition:opacity 0.25s;text-align:center;line-height:1.5;}
-.feedback.show{opacity:1;}
-.feedback.ok{background:#D8F5E0;color:#1b5e20;border:1px solid #b2dfdb;}
-.feedback.bad{background:#FFEDEC;color:#b71c1c;border:1px solid #ffcdd2;}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.shake{animation:shake .3s ease;}
 
-.explain{background:#F2F2F2;border-left:3px solid #752886;border-radius:0 8px 8px 0;padding:10px 12px;margin-top:8px;font-size:12px;color:#444;line-height:1.8;display:none;}
-.explain b{color:#752886;}
+/* 5. FEEDBACK */
+.fb{min-height:40px;display:flex;align-items:center;justify-content:center;border-radius:8px;padding:8px 14px;font-size:13px;line-height:1.5;text-align:center;opacity:0;transition:opacity .25s;margin-bottom:2px;}
+.fb.show{opacity:1;}
+.fb.ok{background:#D8F5E0;color:#1b5e20;border:1px solid #b2dfdb;}
+.fb.bad{background:#FFEDEC;color:#b71c1c;border:1px solid #ffcdd2;}
+.fb.hint{background:#FDE9C9;color:#a06000;border:1px solid #F9A824;}
+.fb.done{background:#EDD1FF;color:#752886;border:1px solid #752886;font-weight:700;}
 
-.btns{display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap;}
-.btn{font-family:'Roboto',sans-serif;font-size:13px;border-radius:8px;padding:10px 18px;cursor:pointer;transition:all 0.18s;font-weight:400;border:1.5px solid #E2E3E4;min-height:42px;-webkit-appearance:none;}
+/* 6. BUTTONS */
+.row1{display:flex;gap:8px;margin-top:10px;}
+.row2{display:flex;gap:8px;margin-top:8px;}
+.btn{flex:1;font-family:inherit;font-size:14px;border-radius:8px;min-height:44px;cursor:pointer;-webkit-appearance:none;touch-action:manipulation;transition:opacity .15s;}
 .btn:active{transform:scale(0.97);}
-.btn-check{background:#752886;border-color:#752886;color:#fff;font-weight:600;}
-.btn-check:disabled{opacity:0.35;cursor:not-allowed;}
-.btn-next{background:#F9A824;border-color:#F9A824;color:#fff;font-weight:600;display:none;}
-.btn-show{background:#fff;color:#444;}
-.btn-show:hover{border-color:#752886;color:#752886;background:#EDD1FF;}
+.b-check{background:#752886;color:#fff;font-weight:600;border:none;}
+.b-check:disabled{opacity:.35;pointer-events:none;}
+.b-next{background:#F9A824;color:#fff;font-weight:700;border:none;display:none;}
+.b-hint{background:#FDE9C9;border:1.5px solid #F9A824;color:#a06000;font-weight:600;font-size:13px;}
+.b-reset{background:#fff;border:1.5px solid #E2E3E4;color:#444;font-weight:600;font-size:13px;}
 
-.instruction{text-align:center;font-size:11px;color:#C2C2C2;margin-top:8px;line-height:1.5;}
-.footer{text-align:center;margin-top:20px;padding-top:12px;border-top:1px solid #E2E3E4;font-size:11px;color:#C2C2C2;}
-canvas{display:block;}
+/* 7. STEPS */
+.steps{display:none;background:#D8F5E0;border-radius:8px;padding:12px 14px;margin-top:10px;}
+.steps-t{font-size:13px;font-weight:700;color:#1b5e20;margin-bottom:4px;}
+.steps ol{margin:0;padding-left:20px;}
+.steps li{font-size:13px;color:#1b5e20;line-height:1.8;}
+
+/* 8. HOW TO PLAY */
+.htp{background:#F2F2F2;border-radius:8px;padding:14px 16px;margin-top:14px;}
+.htp-t{font-size:16px;font-weight:700;color:#000;margin-bottom:10px;}
+.htp ul{margin:0;padding-left:18px;list-style:disc;}
+.htp li{font-size:14px;color:#1e88e5;line-height:1.7;}
+
+/* 9. FOOTER */
+.foot{text-align:center;margin-top:18px;font-size:11px;color:#C2C2C2;}
+
+/* CONFETTI */
+.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:99;}
+.confetti i{position:absolute;top:-12px;width:9px;height:9px;border-radius:2px;animation:fall 2s linear forwards;}
+@keyframes fall{to{transform:translateY(105vh) rotate(540deg);opacity:0;}}
 </style>
 </head>
 <body>
-<div class="container">
-<div class="header">
-  <div class="brand">Dreamchild Garbhsanskar — Koydaa Gammat</div>
-  <h1>Math Pan Balance</h1>
-  <div class="sub">Deduce values — choose A, B, C or D</div>
-</div>
+<div class="wrap">
+  <!-- 1. TITLE -->
+  <div class="p-title" id="ptitle">'?' ની જગ્યાએ શું મૂકવાથી ત્રાજવું સંતુલિત થશે?</div>
+  <div class="p-sub">ત્રણ સંકેત જુઓ · દરેક આકારની કિંમત શોધો · A B C D પસંદ કરો</div>
 
-<div class="top-bar">
-  <div class="stat"><div class="lbl">Score</div><div class="val" id="sc">0</div></div>
-  <div class="stat"><div class="lbl">Puzzle</div><div class="val" id="qn">1/6</div></div>
-  <div class="stat"><div class="lbl">Correct</div><div class="val" id="cr">0</div></div>
-  <div class="stat"><div class="lbl">Streak</div><div class="val" id="st">0</div></div>
-</div>
-<div class="progress-wrap"><div class="progress-fill" id="pf" style="width:0%"></div></div>
-<div class="tabs" id="tabs"></div>
-<div id="area"></div>
-<div class="footer">©Dreamchild Garbhsanskar — Math Pan Balance Series</div>
+  <!-- 2. TABS -->
+  <div class="tabs" id="tabs"></div>
+
+  <!-- 4. GAME CARD -->
+  <div class="card">
+    <button class="snd" id="snd" onclick="toggleSound()">🔇</button>
+    <div class="diff" id="diff"></div>
+    <div class="sect">સંકેત — ત્રણેય ત્રાજવાં સંતુલિત છે</div>
+    <div id="clues"></div>
+    <hr class="qdiv">
+    <div class="qlbl">'<b>?</b>' માં શું આવે તો સંતુલન થાય?</div>
+    <div class="qwrap"><canvas id="qcvs"></canvas></div>
+    <div class="opts" id="opts"></div>
+  </div>
+
+  <!-- 5. FEEDBACK -->
+  <div class="fb" id="fb"></div>
+
+  <!-- 6. BUTTONS -->
+  <div class="row1">
+    <button class="btn b-check" id="check" onclick="checkAns()" disabled>Check Answer</button>
+    <button class="btn b-next" id="next" onclick="nextPuzzle()">Next Puzzle →</button>
+  </div>
+  <div class="row2">
+    <button class="btn b-hint" onclick="showHint()">Hint</button>
+    <button class="btn b-reset" onclick="resetPuzzle()">Reset</button>
+  </div>
+
+  <!-- 7. STEPS -->
+  <div class="steps" id="steps">
+    <div class="steps-t">ઉકેલ — પગલાં</div>
+    <ol id="stepsList"></ol>
+  </div>
+
+  <!-- 8. HOW TO PLAY -->
+  <div class="htp">
+    <div class="htp-t">How to Play</div>
+    <ul>
+      <li>ત્રણ સંતુલિત ત્રાજવાં જુઓ અને દરેક આકારની કિંમત શોધો.</li>
+      <li>'?' વાળું ત્રાજવું જે વિકલ્પથી સંતુલિત થાય તે જ સાચો જવાબ છે.</li>
+      <li>A B C D માંથી એક પસંદ કરી 'Check Answer' દબાવો — છએ કોયડા ઉકેલો.</li>
+      <li>અટકી જાવ તો 'Hint' વાપરો; ભૂલ થાય તો ફરી પ્રયત્ન કરો.</li>
+    </ul>
+  </div>
+
+  <!-- 9. FOOTER -->
+  <div class="foot">©Dreamchild Garbhsanskar — Math Pan Balance Series</div>
 </div>
 
 <script>
-/* ── SHAPES ── */
+/* ───────── SHAPES ───────── */
 const SH={
-  circle:  (c,x,y,r)=>{c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();c.stroke();},
-  square:  (c,x,y,r)=>{c.fillRect(x-r,y-r,r*2,r*2);c.strokeRect(x-r,y-r,r*2,r*2);},
-  diamond: (c,x,y,r)=>{c.beginPath();c.moveTo(x,y-r);c.lineTo(x+r*0.85,y);c.lineTo(x,y+r);c.lineTo(x-r*0.85,y);c.closePath();c.fill();c.stroke();},
+  circle:(c,x,y,r)=>{c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();c.stroke();},
+  square:(c,x,y,r)=>{c.fillRect(x-r,y-r,r*2,r*2);c.strokeRect(x-r,y-r,r*2,r*2);},
+  diamond:(c,x,y,r)=>{c.beginPath();c.moveTo(x,y-r);c.lineTo(x+r*0.85,y);c.lineTo(x,y+r);c.lineTo(x-r*0.85,y);c.closePath();c.fill();c.stroke();},
   triangle:(c,x,y,r)=>{c.beginPath();c.moveTo(x,y-r);c.lineTo(x+r*0.9,y+r*0.78);c.lineTo(x-r*0.9,y+r*0.78);c.closePath();c.fill();c.stroke();},
   pentagon:(c,x,y,r)=>{c.beginPath();for(let i=0;i<5;i++){const a=-Math.PI/2+i*2*Math.PI/5;i===0?c.moveTo(x+r*Math.cos(a),y+r*Math.sin(a)):c.lineTo(x+r*Math.cos(a),y+r*Math.sin(a));}c.closePath();c.fill();c.stroke();},
-  hexagon: (c,x,y,r)=>{c.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3;i===0?c.moveTo(x+r*Math.cos(a),y+r*Math.sin(a)):c.lineTo(x+r*Math.cos(a),y+r*Math.sin(a));}c.closePath();c.fill();c.stroke();},
-  star:    (c,x,y,r)=>{c.beginPath();for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,rd=i%2===0?r:r*0.42;i===0?c.moveTo(x+rd*Math.cos(a),y+rd*Math.sin(a)):c.lineTo(x+rd*Math.cos(a),y+rd*Math.sin(a));}c.closePath();c.fill();c.stroke();},
-  ring:    (c,x,y,r)=>{c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.stroke();c.save();c.fillStyle='#fff';c.beginPath();c.arc(x,y,r*0.52,0,Math.PI*2);c.fill();c.restore();},
+  hexagon:(c,x,y,r)=>{c.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3;i===0?c.moveTo(x+r*Math.cos(a),y+r*Math.sin(a)):c.lineTo(x+r*Math.cos(a),y+r*Math.sin(a));}c.closePath();c.fill();c.stroke();},
+  star:(c,x,y,r)=>{c.beginPath();for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,rd=i%2===0?r:r*0.42;i===0?c.moveTo(x+rd*Math.cos(a),y+rd*Math.sin(a)):c.lineTo(x+rd*Math.cos(a),y+rd*Math.sin(a));}c.closePath();c.fill();c.stroke();},
 };
 const COL={
-  circle:  ['#e53935','#b71c1c'],
-  square:  ['#424242','#212121'],
-  diamond: ['#bdbdbd','#757575'],
-  triangle:['#1565c0','#0d47a1'],
-  pentagon:['#752886','#4a0e5c'],
-  hexagon: ['#F9A824','#c47f00'],
-  star:    ['#43a047','#1b5e20'],
-  ring:    ['rgba(0,0,0,0)','#555'],
+  circle:['#e53935','#b71c1c'], square:['#424242','#212121'],
+  diamond:['#bdbdbd','#757575'], triangle:['#1565c0','#0d47a1'],
+  pentagon:['#752886','#4a0e5c'], hexagon:['#F9A824','#c47f00'],
+  star:['#43a047','#1b5e20'],
 };
 function sty(ctx,id){ctx.fillStyle=COL[id][0];ctx.strokeStyle=COL[id][1];ctx.lineWidth=2;}
 
-/* ── DRAW SCALE — uses logical coords 400x80, CSS scales to fit ── */
 function drawScale(cvs,lArr,rArr,isQ){
-  const LW=400,LH=80;
-  cvs.width=LW; cvs.height=LH;
-  const ctx=cvs.getContext('2d');
-  ctx.clearRect(0,0,LW,LH);
+  const LW=400,LH=80;cvs.width=LW;cvs.height=LH;
+  const ctx=cvs.getContext('2d');ctx.clearRect(0,0,LW,LH);
   const cx=LW/2,baseY=LH-6,poleH=LH*0.58,pivotY=baseY-poleH,armLen=LW*0.37;
-  /* base */
-  ctx.fillStyle='#1565c0';
-  ctx.beginPath();ctx.moveTo(cx-24,baseY);ctx.lineTo(cx+24,baseY);ctx.lineTo(cx+9,pivotY+6);ctx.lineTo(cx-9,pivotY+6);ctx.closePath();ctx.fill();
-  /* pole */
+  ctx.fillStyle='#1565c0';ctx.beginPath();ctx.moveTo(cx-24,baseY);ctx.lineTo(cx+24,baseY);ctx.lineTo(cx+9,pivotY+6);ctx.lineTo(cx-9,pivotY+6);ctx.closePath();ctx.fill();
   ctx.fillStyle='#1976d2';ctx.fillRect(cx-4,pivotY,8,poleH);
-  /* pivot */
   ctx.fillStyle='#fdd835';ctx.beginPath();ctx.arc(cx,pivotY,6,0,Math.PI*2);ctx.fill();
-  /* beam */
   ctx.fillStyle='#1976d2';ctx.fillRect(cx-armLen-6,pivotY-4,(armLen+6)*2,8);
-  function pan(side,shapes,isQmark){
+  function pan(side,shapes,q){
     const px=side==='L'?cx-armLen:cx+armLen;
-    ctx.strokeStyle='#90a4ae';ctx.lineWidth=1.5;
-    ctx.beginPath();ctx.moveTo(px,pivotY+4);ctx.lineTo(px,pivotY+20);ctx.stroke();
-    ctx.fillStyle='#F9A824';ctx.strokeStyle='#c47f00';ctx.lineWidth=1.5;
-    ctx.beginPath();ctx.ellipse(px,pivotY+24,26,5,0,0,Math.PI*2);ctx.fill();ctx.stroke();
-    if(isQmark){
-      ctx.font='bold 18px Roboto,sans-serif';ctx.fillStyle='#752886';
-      ctx.textAlign='center';ctx.textBaseline='middle';
-      ctx.fillText('?',px,pivotY+10);
-    } else {
-      const n=shapes.length,sp=Math.min(20,Math.floor((armLen*1.6)/Math.max(n,1))),tot=(n-1)*sp,sx=px-tot/2;
-      shapes.forEach((sh,i)=>{sty(ctx,sh);SH[sh](ctx,sx+i*sp,pivotY+10,8);});
-    }
+    ctx.strokeStyle='#90a4ae';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(px,pivotY+4);ctx.lineTo(px,pivotY+20);ctx.stroke();
+    ctx.fillStyle='#F9A824';ctx.strokeStyle='#c47f00';ctx.lineWidth=1.5;ctx.beginPath();ctx.ellipse(px,pivotY+24,26,5,0,0,Math.PI*2);ctx.fill();ctx.stroke();
+    if(q){ctx.font='bold 18px Roboto,sans-serif';ctx.fillStyle='#752886';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('?',px,pivotY+10);}
+    else{const n=shapes.length,sp=Math.min(20,Math.floor((armLen*1.6)/Math.max(n,1))),tot=(n-1)*sp,sx=px-tot/2;shapes.forEach((sh,i)=>{sty(ctx,sh);SH[sh](ctx,sx+i*sp,pivotY+10,8);});}
   }
-  pan('L',lArr,false);
-  pan('R',rArr,isQ);
+  pan('L',lArr,false);pan('R',rArr,isQ);
 }
-
-/* ── DRAW OPTION ── */
 function drawOpt(cvs,shapes){
-  const LW=180,LH=36;
-  cvs.width=LW;cvs.height=LH;
-  const ctx=cvs.getContext('2d');
-  ctx.clearRect(0,0,LW,LH);
+  const LW=180,LH=34;cvs.width=LW;cvs.height=LH;
+  const ctx=cvs.getContext('2d');ctx.clearRect(0,0,LW,LH);
   const n=shapes.length,sp=Math.min(22,Math.floor(LW/Math.max(n+0.5,1))),tot=(n-1)*sp,sx=LW/2-tot/2;
   shapes.forEach((sh,i)=>{sty(ctx,sh);SH[sh](ctx,sx+i*sp,LH/2,9);});
 }
 
-/* ── PUZZLES (all mathematically verified) ── */
+/* ───────── PUZZLES (all hand-verified) ───────── */
 const PUZZLES=[
-  {
-    title:'Math Pan Balance — 1', diff:'Easy',
-    clues:[
-      {L:['circle','circle','circle'],      R:['square','square']},
-      {L:['square','square'],               R:['triangle','triangle','triangle','triangle','triangle','triangle']},
-      {L:['circle','triangle'],             R:['square']},
-    ],
+  { diff:'સહેલું',
+    clues:[{L:['circle','circle','circle'],R:['square','square']},
+           {L:['square','square'],R:['triangle','triangle','triangle','triangle','triangle','triangle']},
+           {L:['circle','triangle'],R:['square']}],
     qL:['circle','square'],
-    opts:[
-      {id:'a',s:['triangle','triangle','triangle','triangle']},
-      {id:'b',s:['triangle','triangle','circle']},
-      {id:'c',s:['triangle','triangle','triangle','triangle','triangle','triangle']},
-      {id:'d',s:['triangle','triangle','triangle','triangle','triangle']},
-    ],
-    ans:'d',
-    steps:[
-      'Let ⬤=circle, ■=square, ▲=triangle.',
-      'Clue 3: ⬤ + ▲ = ■',
-      'Clue 1: 3⬤ = 2■ = 2(⬤+▲)  →  ⬤ = 2▲',
-      'So ■ = ⬤+▲ = 2▲+▲ = 3▲',
-      'Clue 2 check: ■+■ = 6▲ ✓',
-      'Question: ⬤+■ = 2▲+3▲ = 5▲',
-      '→ Answer D: five triangles ✓',
-    ],
-  },
-  {
-    title:'Math Pan Balance — 2', diff:'Easy',
-    clues:[
-      {L:['square'],                        R:['circle','diamond']},
-      {L:['circle','circle'],               R:['square','diamond']},
-      {L:['diamond','diamond','diamond'],   R:['circle','diamond']},
-    ],
+    opts:[{id:'a',s:['triangle','triangle','triangle','triangle']},
+          {id:'b',s:['triangle','triangle','circle']},
+          {id:'c',s:['triangle','triangle','triangle','triangle','triangle','triangle']},
+          {id:'d',s:['triangle','triangle','triangle','triangle','triangle']}],
+    ans:'d', hint:'સંકેત: 3C = 2S  અને  C + T = S',
+    steps:['ધારો: C = વર્તુળ, S = ચોરસ, T = ત્રિકોણ','સંકેત 1: 3C = 2S','સંકેત 2: 2S = 6T  →  S = 3T','આથી 3C = 6T  →  C = 2T','સંકેત 3 ચકાસો: C + T = 2T + T = 3T = S ✓','પ્રશ્ન: C + S = 2T + 3T = 5T','→ જવાબ D: પાંચ ત્રિકોણ ✓']},
+
+  { diff:'સહેલું',
+    clues:[{L:['square'],R:['circle','diamond']},
+           {L:['circle','circle'],R:['square','diamond']},
+           {L:['diamond','diamond','diamond'],R:['circle','diamond']}],
     qL:['square','circle'],
-    opts:[
-      {id:'a',s:['diamond','diamond','diamond','diamond','diamond']},
-      {id:'b',s:['diamond','diamond','diamond','diamond','diamond','diamond','diamond']},
-      {id:'c',s:['circle','circle','diamond']},
-      {id:'d',s:['square','diamond','diamond']},
-    ],
-    ans:'a',
-    steps:[
-      'Let ■=square, ⬤=circle, ◆=diamond.',
-      'Clue 3: 3◆ = ⬤+◆  →  2◆ = ⬤  →  ⬤ = 2◆',
-      'Clue 1: ■ = ⬤+◆ = 2◆+◆ = 3◆',
-      'Clue 2 check: ⬤+⬤ = 4◆ = ■+◆ = 4◆ ✓',
-      'Question: ■+⬤ = 3◆+2◆ = 5◆',
-      '→ Answer A: five diamonds ✓',
-    ],
-  },
-  {
-    title:'Math Pan Balance — 3', diff:'Medium',
-    clues:[
-      {L:['pentagon','pentagon'],           R:['hexagon','hexagon','hexagon']},
-      {L:['hexagon','hexagon'],             R:['star','star','star','star']},
-      {L:['pentagon','star'],               R:['hexagon','hexagon']},
-    ],
+    opts:[{id:'a',s:['diamond','diamond','diamond','diamond','diamond']},
+          {id:'b',s:['diamond','diamond','diamond','diamond','diamond','diamond','diamond']},
+          {id:'c',s:['circle','circle','diamond']},
+          {id:'d',s:['square','diamond','diamond']}],
+    ans:'a', hint:'સંકેત: 3D = C + D  →  C = 2D',
+    steps:['ધારો: S = ચોરસ, C = વર્તુળ, D = હીરો','સંકેત 3: 3D = C + D  →  C = 2D','સંકેત 1: S = C + D = 2D + D = 3D','સંકેત 2 ચકાસો: 2C = 4D = S + D = 4D ✓','પ્રશ્ન: S + C = 3D + 2D = 5D','→ જવાબ A: પાંચ હીરા ✓']},
+
+  { diff:'મધ્યમ',
+    clues:[{L:['pentagon','pentagon'],R:['hexagon','hexagon','hexagon']},
+           {L:['hexagon','hexagon'],R:['star','star','star','star']},
+           {L:['pentagon','star'],R:['hexagon','hexagon']}],
     qL:['pentagon','hexagon'],
-    opts:[
-      {id:'a',s:['hexagon','hexagon','star']},
-      {id:'b',s:['star','star','star','star','star']},
-      {id:'c',s:['pentagon','star','star']},
-      {id:'d',s:['hexagon','star','star','star']},
-    ],
-    ans:'a',
-    steps:[
-      'Let P=pentagon, H=hexagon, ★=star.',
-      'Clue 1: 2P = 3H  →  P = 1.5H',
-      'Clue 2: 2H = 4★  →  H = 2★',
-      'So P = 3★',
-      'Clue 3 check: P+★ = 4★ = H+H = 4★ ✓',
-      'Question: P+H = 3★+2★ = 5★',
-      'Option A: H+H+★ = 2★+2★+★ = 5★ ✓',
-      '→ Answer A ✓',
-    ],
-  },
-  {
-    title:'Math Pan Balance — 4', diff:'Medium',
-    clues:[
-      {L:['circle','circle'],               R:['triangle','triangle','triangle']},
-      {L:['triangle','triangle'],           R:['diamond','diamond','diamond','diamond']},
-      {L:['circle','square','square'],      R:['triangle','diamond','diamond']},
-    ],
+    opts:[{id:'a',s:['hexagon','hexagon','star']},
+          {id:'b',s:['star','star','star','star','star']},
+          {id:'c',s:['pentagon','star','star']},
+          {id:'d',s:['hexagon','star','star','star']}],
+    ans:'a', hint:'સંકેત: 2H = 4★  →  H = 2★',
+    steps:['ધારો: P = પંચકોણ, H = ષટ્કોણ, ★ = તારો','સંકેત 1: 2P = 3H  →  P = 1.5H','સંકેત 2: 2H = 4★  →  H = 2★','આથી P = 3★','સંકેત 3 ચકાસો: P + ★ = 4★ = 2H ✓','પ્રશ્ન: P + H = 3★ + 2★ = 5★','વિકલ્પ A: H + H + ★ = 5★ ✓','→ જવાબ A ✓']},
+
+  { diff:'મધ્યમ',
+    clues:[{L:['circle','circle'],R:['triangle','triangle','triangle']},
+           {L:['triangle','triangle'],R:['diamond','diamond','diamond','diamond']},
+           {L:['circle','square','square'],R:['triangle','diamond','diamond']}],
     qL:['circle','triangle','diamond'],
-    opts:[
-      {id:'a',s:['triangle','triangle','triangle','circle']},
-      {id:'b',s:['circle','circle']},
-      {id:'c',s:['triangle','triangle','triangle']},
-      {id:'d',s:['triangle','triangle','diamond','diamond']},
-    ],
-    ans:'b',
-    steps:[
-      'Let ⬤=circle, ▲=triangle, ◆=diamond, ■=square.',
-      'Clue 1: 2⬤ = 3▲  →  ⬤ = 1.5▲',
-      'Clue 2: 2▲ = 4◆  →  ▲ = 2◆  →  ⬤ = 3◆',
-      'Clue 3: ⬤+2■ = ▲+2◆  →  3◆+2■ = 2◆+2◆  →  2■ = ◆  →  ■ = 0.5◆',
-      'With ◆=2: ■=1, ▲=4, ⬤=6. Check Clue 3: 6+2=8, 4+4=8 ✓',
-      'Question: ⬤+▲+◆ = 6+4+2 = 12 = 2⬤ = 2×6 = 12',
-      '→ Answer B: two circles ✓',
-    ],
-  },
-  {
-    title:'Math Pan Balance — 5', diff:'Hard',
-    clues:[
-      {L:['pentagon','pentagon'],           R:['star','star','star','star']},
-      {L:['pentagon','hexagon'],            R:['circle','star']},
-      {L:['circle','hexagon','hexagon'],    R:['pentagon','star']},
-    ],
+    opts:[{id:'a',s:['triangle','triangle','triangle','circle']},
+          {id:'b',s:['circle','circle']},
+          {id:'c',s:['triangle','triangle','triangle']},
+          {id:'d',s:['triangle','triangle','diamond','diamond']}],
+    ans:'b', hint:'સંકેત: 2T = 4D  →  T = 2D',
+    steps:['ધારો: C = વર્તુળ, T = ત્રિકોણ, D = હીરો, S = ચોરસ','સંકેત 1: 2C = 3T  →  C = 1.5T','સંકેત 2: 2T = 4D  →  T = 2D, આથી C = 3D','સંકેત 3: C + 2S = T + 2D  →  3D + 2S = 4D  →  S = 0.5D','D = 2 લો: S = 1, T = 4, C = 6','પ્રશ્ન: C + T + D = 6 + 4 + 2 = 12 = 2C','→ જવાબ B: બે વર્તુળ ✓']},
+
+  { diff:'અઘરું',
+    clues:[{L:['pentagon','pentagon'],R:['star','star','star','star']},
+           {L:['pentagon','hexagon'],R:['circle','star']},
+           {L:['circle','hexagon','hexagon'],R:['pentagon','star']}],
     qL:['circle','circle','hexagon'],
-    opts:[
-      {id:'a',s:['pentagon','pentagon']},
-      {id:'b',s:['pentagon','star','star']},
-      {id:'c',s:['circle','pentagon']},
-      {id:'d',s:['pentagon','hexagon','star']},
-    ],
-    ans:'a',
-    steps:[
-      'Let P=pentagon, ★=star, C=circle, H=hexagon.',
-      'Clue 1: 2P = 4★  →  P = 2★',
-      'Clue 2: P+H = C+★  →  2★+H = C+★  →  ★+H = C',
-      'Clue 3: C+2H = P+★  →  (★+H)+2H = 3★  →  3H = 2★  →  H = (2/3)★',
-      'With ★=3: H=2, P=6, C=★+H=5',
-      'Verify all clues: ✓ ✓ ✓',
-      'Question: C+C+H = 5+5+2 = 12 = 2P = 2×6 = 12',
-      '→ Answer A: two pentagons ✓',
-    ],
-  },
-  {
-    title:'Math Pan Balance — 6', diff:'Hard',
-    clues:[
-      {L:['hexagon','hexagon','hexagon','hexagon'], R:['circle','circle']},
-      {L:['circle','circle'],                       R:['diamond','diamond','diamond','diamond','diamond','diamond','diamond','diamond']},
-      {L:['hexagon','diamond','diamond'],           R:['circle']},
-    ],
+    opts:[{id:'a',s:['pentagon','pentagon']},
+          {id:'b',s:['pentagon','star','star']},
+          {id:'c',s:['circle','pentagon']},
+          {id:'d',s:['pentagon','hexagon','star']}],
+    ans:'a', hint:'સંકેત: 2P = 4★  →  P = 2★',
+    steps:['ધારો: P = પંચકોણ, ★ = તારો, C = વર્તુળ, H = ષટ્કોણ','સંકેત 1: 2P = 4★  →  P = 2★','સંકેત 2: P + H = C + ★  →  C = ★ + H','સંકેત 3: C + 2H = P + ★  →  3H = 2★  →  H = (2/3)★','★ = 3 લો: H = 2, P = 6, C = 5','પ્રશ્ન: C + C + H = 5 + 5 + 2 = 12 = 2P','→ જવાબ A: બે પંચકોણ ✓']},
+
+  { diff:'અઘરું',
+    clues:[{L:['hexagon','hexagon','hexagon','hexagon'],R:['circle','circle']},
+           {L:['circle','circle'],R:['diamond','diamond','diamond','diamond','diamond','diamond','diamond','diamond']},
+           {L:['hexagon','diamond','diamond'],R:['circle']}],
     qL:['circle','diamond'],
-    opts:[
-      {id:'a',s:['hexagon','hexagon','diamond']},
-      {id:'b',s:['hexagon','hexagon','hexagon']},
-      {id:'c',s:['circle','diamond','diamond']},
-      {id:'d',s:['hexagon','diamond','diamond','diamond']},
-    ],
-    ans:'a',
-    steps:[
-      'Let H=hexagon, C=circle, D=diamond.',
-      'Clue 1: 4H = 2C  →  C = 2H',
-      'Clue 2: 2C = 8D  →  C = 4D',
-      'So 2H = 4D  →  H = 2D',
-      'Clue 3 check: H+D+D = 2D+2D = 4D = C ✓',
-      'Question: C+D = 4D+D = 5D',
-      'Option A: H+H+D = 2D+2D+D = 5D ✓',
-      '→ Answer A ✓',
-    ],
-  },
+    opts:[{id:'a',s:['hexagon','hexagon','diamond']},
+          {id:'b',s:['hexagon','hexagon','hexagon']},
+          {id:'c',s:['circle','diamond','diamond']},
+          {id:'d',s:['hexagon','diamond','diamond','diamond']}],
+    ans:'a', hint:'સંકેત: 4H = 2C  →  C = 2H',
+    steps:['ધારો: H = ષટ્કોણ, C = વર્તુળ, D = હીરો','સંકેત 1: 4H = 2C  →  C = 2H','સંકેત 2: 2C = 8D  →  C = 4D','આથી 2H = 4D  →  H = 2D','સંકેત 3 ચકાસો: H + 2D = 2D + 2D = 4D = C ✓','પ્રશ્ન: C + D = 4D + D = 5D','વિકલ્પ A: H + H + D = 5D ✓','→ જવાબ A ✓']},
 ];
 
-let cur=0,score=0,streak=0,correct=0,sel=null,done=false;
+/* ───────── STATE + STORAGE ───────── */
+const KEY='dcgs_panbalance_v1';
+function save(d){try{localStorage.setItem(KEY,JSON.stringify(d));}catch(e){}}
+function load(){try{return JSON.parse(localStorage.getItem(KEY));}catch(e){return null;}}
+let state=load()||{tab:0,solved:Array(PUZZLES.length).fill(false),sound:false,celebrated:false};
+if(!Array.isArray(state.solved)||state.solved.length!==PUZZLES.length){state.solved=Array(PUZZLES.length).fill(false);}
+let cur=state.tab||0, sel=null;
 
+/* ───────── SOUND ───────── */
+let actx=null;
+function beep(freq,dur,type){
+  if(!state.sound)return;
+  try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();
+    const o=actx.createOscillator(),g=actx.createGain();
+    o.type=type||'sine';o.frequency.value=freq;o.connect(g);g.connect(actx.destination);
+    g.gain.setValueAtTime(0.0001,actx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.18,actx.currentTime+0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001,actx.currentTime+dur);
+    o.start();o.stop(actx.currentTime+dur);}catch(e){}
+}
+const dingOK=()=>beep(880,0.25,'sine');
+const dingBad=()=>beep(196,0.28,'sine');
+function toggleSound(){state.sound=!state.sound;document.getElementById('snd').textContent=state.sound?'🔊':'🔇';save(state);}
+
+/* ───────── RENDER ───────── */
 function render(){
-  const p=PUZZLES[cur];
-  sel=null;done=false;
-  document.getElementById('qn').textContent=(cur+1)+'/'+PUZZLES.length;
-  document.getElementById('pf').style.width=(cur/PUZZLES.length*100)+'%';
+  const p=PUZZLES[cur];sel=null;
+  state.tab=cur;save(state);
   buildTabs();
-  const area=document.getElementById('area');
-  area.innerHTML='';
-  const card=document.createElement('div');card.className='puzzle-card';
-  card.innerHTML='<div class="p-header"><h2>'+p.title+'<br><span style="font-size:11px;font-weight:400;opacity:0.75;">'+p.diff.toUpperCase()+'</span></h2></div>';
-  const body=document.createElement('div');body.className='p-body';
+  document.getElementById('diff').textContent=p.diff;
+  document.getElementById('snd').textContent=state.sound?'🔊':'🔇';
 
-  body.insertAdjacentHTML('beforeend','<div class="section-lbl">Clues — all three scales are balanced</div>');
-  p.clues.forEach((cl,i)=>{
-    const row=document.createElement('div');row.className='clue-row';
-    row.innerHTML='<span class="clue-n">'+(i+1)+'.</span><div class="clue-canvas-wrap"><canvas id="cl'+i+'"></canvas></div>';
-    body.appendChild(row);
-  });
+  const cl=document.getElementById('clues');cl.innerHTML='';
+  p.clues.forEach((c,i)=>{cl.insertAdjacentHTML('beforeend','<div class="clue"><span class="clue-n">'+(i+1)+'.</span><div class="cw"><canvas id="cl'+i+'"></canvas></div></div>');});
 
-  body.insertAdjacentHTML('beforeend','<hr class="q-divider"><div class="q-label">What replaces <b style="color:#752886">?</b> to balance?</div>');
-  const qr=document.createElement('div');qr.className='clue-row';qr.style.justifyContent='center';
-  qr.innerHTML='<div class="clue-canvas-wrap" style="max-width:400px;"><canvas id="qcvs"></canvas></div>';
-  body.appendChild(qr);
+  const og=document.getElementById('opts');og.innerHTML='';
+  p.opts.forEach(o=>{og.insertAdjacentHTML('beforeend','<button class="opt" id="op'+o.id+'" onclick="pick(\''+o.id+'\')"><span class="ol">'+o.id.toUpperCase()+'.</span><canvas id="oc'+o.id+'"></canvas></button>');});
 
-  const og=document.createElement('div');og.className='opts-grid';
-  p.opts.forEach(opt=>{
-    og.insertAdjacentHTML('beforeend',
-      '<button class="opt-btn" id="ob'+opt.id+'" onclick="pick(\''+opt.id+'\')">'
-      +'<span class="opt-lbl">'+opt.id.toUpperCase()+'.</span>'
-      +'<div class="opt-canvas-wrap"><canvas id="oc'+opt.id+'"></canvas></div>'
-      +'</button>');
-  });
-  body.appendChild(og);
-
-  body.insertAdjacentHTML('beforeend',
-    '<div class="feedback" id="fb"></div>'
-    +'<div class="explain" id="exp"></div>'
-    +'<div class="btns">'
-    +'<button class="btn btn-check" id="chk" onclick="chk()" disabled>Check Answer</button>'
-    +'<button class="btn btn-show" onclick="showExp()">Show Steps</button>'
-    +'<button class="btn btn-next" id="nxt" onclick="nextQ()">Next Puzzle →</button>'
-    +'</div>'
-    +'<div class="instruction">Study all 3 clues, deduce shape values, tap A B C or D.</div>');
-
-  card.appendChild(body);area.appendChild(card);
+  // reset UI bits
+  const fb=document.getElementById('fb');fb.className='fb';fb.textContent='';
+  document.getElementById('steps').style.display='none';
+  document.getElementById('next').style.display='none';
+  document.getElementById('check').disabled=true;
 
   requestAnimationFrame(()=>{
-    p.clues.forEach((cl,i)=>drawScale(document.getElementById('cl'+i),cl.L,cl.R,false));
+    p.clues.forEach((c,i)=>drawScale(document.getElementById('cl'+i),c.L,c.R,false));
     drawScale(document.getElementById('qcvs'),p.qL,[],true);
-    p.opts.forEach(opt=>drawOpt(document.getElementById('oc'+opt.id),opt.s));
+    p.opts.forEach(o=>drawOpt(document.getElementById('oc'+o.id),o.s));
+    if(state.solved[cur])lockSolved(false);
   });
-}
-
-function pick(id){
-  if(done)return;
-  sel=id;
-  document.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('sel'));
-  document.getElementById('ob'+id).classList.add('sel');
-  document.getElementById('chk').disabled=false;
-}
-
-function chk(){
-  if(!sel||done)return;
-  done=true;
-  const p=PUZZLES[cur];
-  const fb=document.getElementById('fb');
-  document.getElementById('chk').disabled=true;
-  document.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
-  if(sel===p.ans){
-    document.getElementById('ob'+sel).className='opt-btn correct';
-    fb.className='feedback ok show';
-    fb.textContent='Correct! Option '+p.ans.toUpperCase()+' balances the scale.';
-    score+=10+(streak*2);streak++;correct++;
-  } else {
-    document.getElementById('ob'+sel).className='opt-btn wrong';
-    document.getElementById('ob'+p.ans).className='opt-btn correct';
-    fb.className='feedback bad show';
-    fb.textContent='Not quite. Correct answer is Option '+p.ans.toUpperCase()+'.';
-    streak=0;
-  }
-  document.getElementById('sc').textContent=score;
-  document.getElementById('st').textContent=streak+(streak>1?'🔥':'');
-  document.getElementById('cr').textContent=correct;
-  showExp();
-  document.getElementById('nxt').style.display='inline-block';
-  buildTabs();
-}
-
-function showExp(){
-  const exp=document.getElementById('exp');
-  exp.style.display='block';
-  exp.innerHTML='<b>Step-by-step:</b><br>'+PUZZLES[cur].steps.map((s,i)=>(i+1)+'. '+s).join('<br>');
-}
-
-function nextQ(){
-  if(cur<PUZZLES.length-1){cur++;render();}else{showFinal();}
 }
 
 function buildTabs(){
   const row=document.getElementById('tabs');row.innerHTML='';
   PUZZLES.forEach((_,i)=>{
     const b=document.createElement('button');
-    b.className='tab'+(i===cur?' active':'');
+    b.className='tab'+(i===cur?' active':(state.solved[i]?' done':''));
     b.textContent='P'+(i+1);
-    b.onclick=()=>{cur=i;render();};
+    b.onclick=()=>{cur=i;render();window.scrollTo({top:0,behavior:'smooth'});};
     row.appendChild(b);
   });
 }
 
-function showFinal(){
-  document.getElementById('pf').style.width='100%';
-  document.getElementById('area').innerHTML=
-    '<div class="puzzle-card"><div class="p-header"><h2>All 6 Puzzles Complete!</h2></div>'
-    +'<div class="p-body" style="text-align:center;padding:32px 16px;">'
-    +'<div style="font-size:48px;margin-bottom:10px;">🏆</div>'
-    +'<div style="font-size:17px;font-weight:600;margin-bottom:8px;">Excellent logical thinking!</div>'
-    +'<div style="font-size:32px;font-weight:700;color:#752886;margin:10px 0;">'+score+' pts</div>'
-    +'<div style="font-size:14px;color:#444;margin-bottom:6px;">Correct: '+correct+' / '+PUZZLES.length+'</div>'
-    +'<div style="font-size:12px;color:#C2C2C2;margin-bottom:22px;">Builds logical thinking for you and your baby.</div>'
-    +'<button class="btn btn-check" style="display:inline-block;" onclick="restart()">Play Again</button>'
-    +'</div></div>';
+function pick(id){
+  if(state.solved[cur])return;
+  sel=id;
+  document.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel','wrong'));
+  document.getElementById('op'+id).classList.add('sel');
+  document.getElementById('check').disabled=false;
+  const fb=document.getElementById('fb');if(fb.classList.contains('bad')){fb.className='fb';}
 }
 
-function restart(){
-  cur=0;score=0;streak=0;correct=0;
-  document.getElementById('sc').textContent=0;
-  document.getElementById('st').textContent=0;
-  document.getElementById('cr').textContent=0;
+function checkAns(){
+  if(!sel||state.solved[cur])return;
+  const p=PUZZLES[cur],fb=document.getElementById('fb');
+  if(sel===p.ans){
+    state.solved[cur]=true;save(state);
+    lockSolved(true);
+    dingOK();
+    checkAllDone();
+  }else{
+    const el=document.getElementById('op'+sel);
+    el.classList.remove('sel');el.classList.add('wrong','shake');
+    el.addEventListener('animationend',()=>el.classList.remove('shake'),{once:true});
+    fb.className='fb bad show';fb.textContent='ખોટું — ફરી પ્રયત્ન કરો. સંકેત ફરી તપાસો.';
+    document.getElementById('check').disabled=true;
+    sel=null;
+    dingBad();
+  }
+}
+
+function lockSolved(animate){
+  const p=PUZZLES[cur],fb=document.getElementById('fb');
+  document.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel','wrong'));
+  const win=document.getElementById('op'+p.ans);
+  win.classList.add('correct','lock');
+  document.querySelectorAll('.opt').forEach(o=>o.classList.add('lock'));
+  if(!(state.celebrated && allDone())){
+    fb.className='fb ok show';
+    fb.textContent='સાચું! વિકલ્પ '+p.ans.toUpperCase()+' ત્રાજવું સંતુલિત કરે છે 🎉';
+  }
+  // steps
+  const sl=document.getElementById('stepsList');sl.innerHTML='';
+  p.steps.forEach(s=>{const li=document.createElement('li');li.textContent=s;sl.appendChild(li);});
+  document.getElementById('steps').style.display='block';
+  document.getElementById('check').disabled=true;
+  document.getElementById('next').style.display=(cur<PUZZLES.length-1)?'block':'none';
+  buildTabs();
+}
+
+function showHint(){
+  if(state.solved[cur])return;
+  const fb=document.getElementById('fb');
+  fb.className='fb hint show';fb.textContent=PUZZLES[cur].hint;
+}
+
+function resetPuzzle(){
+  state.solved[cur]=false;save(state);
   render();
+}
+
+function nextPuzzle(){
+  if(cur<PUZZLES.length-1){cur++;render();}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ───────── COMPLETION ───────── */
+function allDone(){return state.solved.every(Boolean);}
+function checkAllDone(){
+  if(allDone()&&!state.celebrated){
+    state.celebrated=true;save(state);
+    const fb=document.getElementById('fb');
+    fb.className='fb done show';fb.textContent='બધી કોયડા પૂર્ણ! 🎉 Well done!';
+    confetti();
+  }
+}
+function confetti(){
+  const cols=['#752886','#F9A824','#1e88e5','#43a047'];
+  const box=document.createElement('div');box.className='confetti';
+  for(let i=0;i<18;i++){
+    const s=document.createElement('i');
+    s.style.left=(Math.random()*100)+'%';
+    s.style.background=cols[i%cols.length];
+    s.style.animationDelay=(Math.random()*0.4)+'s';
+    s.style.animationDuration=(1.6+Math.random()*0.8)+'s';
+    box.appendChild(s);
+  }
+  document.body.appendChild(box);
+  setTimeout(()=>box.remove(),2600);
 }
 
 render();
