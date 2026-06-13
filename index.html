@@ -8,8 +8,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700&family=Noto+Sans+Gujarati:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html,body{width:100%;min-height:100%;font-family:'Noto Sans Gujarati','Roboto',sans-serif;background:#F2F2F2;color:#444;overflow-x:hidden;}
-.wrap{width:100%;max-width:560px;margin:0 auto;padding:12px 14px 30px;}
+html,body{width:100%;min-height:100%;font-family:'Noto Sans Gujarati','Roboto',sans-serif;background:#FFFFFF;color:#444;overflow-x:hidden;}
+.wrap{width:100%;max-width:560px;margin:0 auto;padding:12px 14px 30px;position:relative;}
 
 /* 1. TITLE */
 .p-title{font-size:18px;font-weight:600;color:#752886;text-align:center;line-height:1.45;margin-bottom:6px;}
@@ -23,8 +23,8 @@ html,body{width:100%;min-height:100%;font-family:'Noto Sans Gujarati','Roboto',s
 .tab:active{transform:scale(0.97);}
 
 /* 4. GAME CARD */
-.card{position:relative;background:#fff;border:1px solid #E2E3E4;border-radius:14px;padding:16px 14px 18px;margin-bottom:12px;}
-.snd{position:absolute;top:10px;right:10px;width:32px;height:32px;border:1.5px solid #E2E3E4;border-radius:8px;background:#fff;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;touch-action:manipulation;}
+.card{position:relative;background:#fff;border:1px solid #E2E3E4;box-shadow:0 2px 12px rgba(117,40,134,0.06);border-radius:14px;padding:16px 14px 18px;margin-bottom:12px;}
+.snd{position:absolute;top:10px;right:5px;width:32px;height:32px;border:1.5px solid #E2E3E4;border-radius:8px;background:#fff;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;touch-action:manipulation;}
 .snd:active{transform:scale(0.95);}
 .diff{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#C2C2C2;text-align:center;margin-bottom:10px;}
 
@@ -84,7 +84,7 @@ html,body{width:100%;min-height:100%;font-family:'Noto Sans Gujarati','Roboto',s
 .htp{background:#F2F2F2;border-radius:8px;padding:14px 16px;margin-top:14px;}
 .htp-t{font-size:16px;font-weight:700;color:#000;margin-bottom:10px;}
 .htp ul{margin:0;padding-left:18px;list-style:disc;}
-.htp li{font-size:14px;color:#1e88e5;line-height:1.7;}
+.htp li{font-size:14px;color:#444444;line-height:1.7;}
 
 /* 9. FOOTER */
 .foot{text-align:center;margin-top:18px;font-size:11px;color:#C2C2C2;}
@@ -104,9 +104,11 @@ html,body{width:100%;min-height:100%;font-family:'Noto Sans Gujarati','Roboto',s
   <!-- 2. TABS -->
   <div class="tabs" id="tabs"></div>
 
+  <!-- SOUND TOGGLE — absolute on .wrap, scrolls with page, exempt from layout order -->
+  <button class="snd" id="snd" onclick="toggleSound()">🔇</button>
+
   <!-- 4. GAME CARD -->
   <div class="card">
-    <button class="snd" id="snd" onclick="toggleSound()">🔇</button>
     <div class="diff" id="diff"></div>
     <div class="sect">સંકેત — ત્રણેય ત્રાજવાં સંતુલિત છે</div>
     <div id="clues"></div>
@@ -147,7 +149,7 @@ html,body{width:100%;min-height:100%;font-family:'Noto Sans Gujarati','Roboto',s
   </div>
 
   <!-- 9. FOOTER -->
-  <div class="foot">©Dreamchild Garbhsanskar — Math Pan Balance Series</div>
+  <div class="foot">©Dreamchild Garbhsanskar</div>
 </div>
 
 <script>
@@ -277,19 +279,25 @@ if(!Array.isArray(state.solved)||state.solved.length!==PUZZLES.length){state.sol
 let cur=state.tab||0, sel=null;
 
 /* ───────── SOUND ───────── */
-let actx=null;
-function beep(freq,dur,type){
-  if(!state.sound)return;
-  try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();
-    const o=actx.createOscillator(),g=actx.createGain();
-    o.type=type||'sine';o.frequency.value=freq;o.connect(g);g.connect(actx.destination);
-    g.gain.setValueAtTime(0.0001,actx.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.18,actx.currentTime+0.02);
-    g.gain.exponentialRampToValueAtTime(0.0001,actx.currentTime+dur);
-    o.start();o.stop(actx.currentTime+dur);}catch(e){}
+let ctx;
+function ac(){
+  if(!ctx) ctx=new (window.AudioContext||window.webkitAudioContext)();
+  if(ctx.state==='suspended') ctx.resume();
+  return ctx;
 }
-const dingOK=()=>beep(880,0.25,'sine');
-const dingBad=()=>beep(196,0.28,'sine');
+function tone(f,t0,dur,type,peak){
+  const c=ac(),o=c.createOscillator(),g=c.createGain();
+  o.type=type; o.frequency.value=f;
+  const s=c.currentTime+t0;
+  g.gain.setValueAtTime(0.0001,s);
+  g.gain.exponentialRampToValueAtTime(peak,s+0.012);
+  g.gain.exponentialRampToValueAtTime(0.0001,s+dur);
+  o.connect(g); g.connect(c.destination);
+  o.start(s); o.stop(s+dur+0.02);
+}
+function playCorrect(){ tone(523,0,0.10,'square',0.22); tone(659,0.09,0.10,'square',0.22); tone(784,0.18,0.18,'square',0.22); }
+function playWrong(){ tone(330,0,0.13,'triangle',0.3); tone(247,0.12,0.20,'triangle',0.3); }
+function playWin(){ tone(659,0,0.10,'square',0.22); tone(784,0.10,0.10,'square',0.22); tone(1047,0.20,0.10,'square',0.22); tone(1319,0.30,0.10,'square',0.22); tone(1047,0.40,0.10,'square',0.22); tone(1319,0.50,0.28,'square',0.24); }
 function toggleSound(){state.sound=!state.sound;document.getElementById('snd').textContent=state.sound?'🔊':'🔇';save(state);}
 
 /* ───────── RENDER ───────── */
@@ -346,7 +354,7 @@ function checkAns(){
   if(sel===p.ans){
     state.solved[cur]=true;save(state);
     lockSolved(true);
-    dingOK();
+    if(state.sound)playCorrect();
     checkAllDone();
   }else{
     const el=document.getElementById('op'+sel);
@@ -355,7 +363,7 @@ function checkAns(){
     fb.className='fb bad show';fb.textContent='ખોટું — ફરી પ્રયત્ન કરો. સંકેત ફરી તપાસો.';
     document.getElementById('check').disabled=true;
     sel=null;
-    dingBad();
+    if(state.sound)playWrong();
   }
 }
 
@@ -401,6 +409,7 @@ function checkAllDone(){
     state.celebrated=true;save(state);
     const fb=document.getElementById('fb');
     fb.className='fb done show';fb.textContent='બધી કોયડા પૂર્ણ! 🎉 Well done!';
+    if(state.sound)playWin();
     confetti();
   }
 }
